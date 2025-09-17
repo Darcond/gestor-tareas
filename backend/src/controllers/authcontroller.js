@@ -22,10 +22,10 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const usuario = await Usuario.findOne({ email });
-    if (!usuario) return res.status(400).json({ msg: "Credenciales incorrectas" });
+    if (!usuario) return res.status(401).json({ msg: "Credenciales incorrectas" });
 
     const isMatch = await usuario.comparePassword(password);
-    if (!isMatch) return res.status(400).json({ msg: "Credenciales incorrectas" });
+    if (!isMatch) return res.status(401).json({ msg: "Credenciales incorrectas" });
 
     const token = jwt.sign({ usuarioId: usuario._id }, process.env.JWT_SECRET, { expiresIn: "8h" });
     res.json({ token });
