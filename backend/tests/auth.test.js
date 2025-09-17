@@ -16,7 +16,7 @@ afterAll(async () => {
 describe("Auth endpoints", () => {
   it("should login successfully", async () => {
     const res = await request(app)
-      .post("/api/auth/login")
+      .post("/auth/login")
       .send({ username: "testuser", password: "123456" });
 
     expect(res.statusCode).toBe(200);
@@ -25,7 +25,7 @@ describe("Auth endpoints", () => {
 
   it("should fail with wrong password", async () => {
     const res = await request(app)
-      .post("/api/auth/login")
+      .post("/auth/login")
       .send({ username: "testuser", password: "wrongpass" });
 
     expect(res.statusCode).toBe(401);

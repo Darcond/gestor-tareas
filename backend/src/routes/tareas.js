@@ -1,12 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const tareasController = require("../controllers/tareasController");
 const auth = require("../middleware/authMiddleware");
-const { crearTarea, obtenerTareas, actualizarTarea, eliminarTarea } = require("../controllers/tareacontroller");
 
-// CRUD protegido por JWT
-router.post("/", auth, crearTarea);
-router.get("/", auth, obtenerTareas);
-router.put("/:id", auth, actualizarTarea);
-router.delete("/:id", auth, eliminarTarea);
+router.get("/", auth, tareasController.obtenerTareas);
+router.post("/", auth, tareasController.crearTarea);
+router.put("/:id", auth, tareasController.actualizarTarea);
+router.delete("/:id", auth, tareasController.eliminarTarea);
 
 module.exports = router;

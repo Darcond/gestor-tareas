@@ -14,7 +14,7 @@ beforeAll(async () => {
   const user = await User.create({ username: "taskuser", password: "123456" });
 
   const res = await request(app)
-    .post("/api/auth/login")
+    .post("/auth/login")
     .send({ username: "taskuser", password: "123456" });
 
   token = res.body.token;
@@ -27,7 +27,7 @@ afterAll(async () => {
 describe("Tarea endpoints", () => {
   it("should create a task", async () => {
     const res = await request(app)
-      .post("/api/tareas")
+      .post("/tareas")
       .set("Authorization", `Bearer ${token}`)
       .send({ titulo: "Prueba", descripcion: "Test", prioridad: "alta" });
 
@@ -38,7 +38,7 @@ describe("Tarea endpoints", () => {
 
   it("should require a title", async () => {
     const res = await request(app)
-      .post("/api/tareas")
+      .post("/tareas")
       .set("Authorization", `Bearer ${token}`)
       .send({ descripcion: "No title" });
 

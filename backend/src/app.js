@@ -1,24 +1,15 @@
-/**
- * app.js
- * Configuración principal de la aplicación Express
- * - Middlewares
- * - Rutas
- */
-
 const express = require("express");
 const cors = require("cors");
-
+require("dotenv").config();
+require("./config/db"); // Conexión a MongoDB
 const authRoutes = require("./routes/auth");
-const tareasRoutes = require("./routes/tareas"); // Importar rutas de tareas
+const tareasRoutes = require("./routes/tareas");
 
 const app = express();
-
-// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// Rutas
-app.use("/api/auth", authRoutes);
-app.use("/api/tareas", tareasRoutes); // Usar rutas de tareas
+app.use("/auth", authRoutes);
+app.use("/tareas", tareasRoutes);
 
 module.exports = app;
