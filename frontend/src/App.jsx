@@ -1,40 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import TasksPage from "./pages/TasksPage";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    // Verifica si hay token en localStorage
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
-  }, []);
-
+export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={isLoggedIn ? <Navigate to="/tasks" /> : <Navigate to="/login" />}
-        />
-        <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="/register" element={<RegisterPage setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route
           path="/tasks"
           element={
-            isLoggedIn ? (
-              <TasksPage setIsLoggedIn={setIsLoggedIn} />
-            ) : (
-              <Navigate to="/login" />
-            )
+            <ProtectedRoute>
+              <TasksPage />
+            </ProtectedRoute>
           }
         />
+        <Route path="*" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
   );
 }
-
-export default App;

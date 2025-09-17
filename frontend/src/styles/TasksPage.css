@@ -1,30 +1,19 @@
-.tasks-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
 .tasks-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* extremos */
   align-items: center;
-  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #f3f4f6;
+  border-bottom: 1px solid #ddd;
 }
 
 .tasks-header h2 {
   margin: 0;
+  font-size: 24px; /* tamaño más visible */
 }
 
-.logout-button {
-  padding: 8px 16px;
+.tasks-header button {
+  padding: 5px 10px; /* reducir tamaño del botón */
+  font-size: 14px;   /* tamaño de texto más pequeño */
   cursor: pointer;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-}
-
-.logout-button:hover {
-  background-color: #d32f2f;
 }

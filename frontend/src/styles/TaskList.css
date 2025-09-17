@@ -1,0 +1,67 @@
+.task-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.task-table th, .task-table td {
+  border: 1px solid #ddd;
+  padding: 6px;
+  text-align: left;
+  font-size: 0.875rem; /* tamaño de letra más pequeño */
+}
+
+.task-table th {
+  background-color: #f2f2f2;
+}
+
+.task-table td button {
+  margin-right: 3px;
+  padding: 2px 5px; /* mucho más compacto */
+  font-size: 0.7rem;
+  cursor: pointer;
+  border-radius: 3px;
+  border: none;
+  min-width: 50px; /* ancho mínimo reducido */
+  white-space: nowrap; 
+  transition: background-color 0.2s;
+}
+
+/* Colores por estado */
+.task-table td button.pendiente {
+  background-color: #f87171;
+  color: white;
+}
+
+.task-table td button.en-progreso {
+  background-color: #facc15;
+  color: black;
+}
+
+.task-table td button.completada {
+  background-color: #4ade80;
+  color: white;
+}
+
+.task-table td button.eliminar {
+  background-color: #9ca3af;
+  color: white;
+}
+
+/* Efecto hover */
+.task-table td button:hover {
+  opacity: 0.85;
+}
+
+/* Ajustes para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .task-table th, .task-table td {
+    font-size: 0.75rem;
+    padding: 4px;
+  }
+
+  .task-table td button {
+    padding: 1px 3px;
+    font-size: 0.65rem;
+    min-width: 40px;
+  }
+}

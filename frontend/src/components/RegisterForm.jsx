@@ -2,42 +2,45 @@ import { useState } from "react";
 import API from "../api/api";
 import { useNavigate } from "react-router-dom";
 
-export default function RegisterForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
+export default function RegisterForm({ switchToLogin }) {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    try {
-      await API.post("/auth/register", { nombre: username, password });
-      navigate("/login");
-    } catch (err) {
-      setError(err.response?.data?.msg || "Error al registrarse");
-    }
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await API.post("/auth/register", { username, password });
+            localStorage.setItem("token", res.data.token);
+            navigate("/tasks");
+        } catch (err) {
+            alert(err.response?.data?.msg || "Error al registrar");
+        }
+    };
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <h2>Registro</h2>
-      {error && <p style={{color: "red"}}>{error}</p>}
-      <input
-        type="text"
-        placeholder="Nombre"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Contraseña"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Registrarse</button>
-    </form>
-  );
+    return (
+        <div>
+            <h2>Registrarse</h2>
+            <form onSubmit={handleSubmit}>
+                <input
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Usuario"
+                    required
+                />
+                <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Contraseña"
+                    required
+                />
+                <button type="submit">Registrarse</button>
+            </form>
+            <p>
+                ¿Ya tienes cuenta?{" "}
+                <button onClick={switchToLogin}>Inicia sesión aquí</button>
+            </p>
+        </div>
+    );
 }
