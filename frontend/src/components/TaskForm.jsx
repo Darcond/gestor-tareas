@@ -5,23 +5,11 @@ export default function TaskForm({ onTaskAdded }) {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [prioridad, setPrioridad] = useState("media");
-  const [error, setError] = useState("");
-
-  // Validación en tiempo real del título
-  const handleTituloChange = (e) => {
-    const value = e.target.value;
-    setTitulo(value);
-
-    if (value.trim().length < 3) {
-      setError("El título debe tener al menos 3 caracteres");
-    } else {
-      setError("");
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (error) return; // no enviar si hay error
+    if (!titulo.trim()) return alert("El título es obligatorio");
+
     try {
       const res = await API.post("/tareas", { titulo, descripcion, prioridad });
       onTaskAdded(res.data);
@@ -30,19 +18,17 @@ export default function TaskForm({ onTaskAdded }) {
       setPrioridad("media");
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.msg || "Error al crear tarea");
+      alert("Error al crear tarea");
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3>Agregar Tarea</h3>
-      {error && <p style={{ color: "red" }}>{error}</p>}
       <input
         type="text"
         placeholder="Título"
         value={titulo}
-        onChange={handleTituloChange}
+        onChange={(e) => setTitulo(e.target.value)}
         required
       />
       <input
@@ -56,7 +42,7 @@ export default function TaskForm({ onTaskAdded }) {
         <option value="media">Media</option>
         <option value="alta">Alta</option>
       </select>
-      <button type="submit">Agregar</button>
+      <button type="submit">Agregar Tarea</button>
     </form>
   );
 }
