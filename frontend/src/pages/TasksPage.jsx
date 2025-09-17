@@ -5,7 +5,7 @@ import LogoutButton from "../components/LogoutButton";
 import API from "../api/api";
 import "../styles/TasksPage.css";
 
-export default function TasksPage() {
+export default function TasksPage({ setIsLoggedIn }) {
   const [tasks, setTasks] = useState([]);
   const [filtroEstado, setFiltroEstado] = useState("");
   const [filtroPrioridad, setFiltroPrioridad] = useState("");
@@ -21,18 +21,15 @@ export default function TasksPage() {
     }
   };
 
-  useEffect(() => {
-    fetchTasks();
-  }, [filtroEstado, filtroPrioridad]);
+  useEffect(() => { fetchTasks(); }, [filtroEstado, filtroPrioridad]);
 
-  const handleTaskAdded = (nuevaTarea) => {
-    setTasks((prev) => [...prev, nuevaTarea]);
-  };
+  const handleTaskAdded = (nuevaTarea) => setTasks((prev) => [...prev, nuevaTarea]);
+  const handleLogout = () => { localStorage.removeItem("token"); setIsLoggedIn(false); };
 
   return (
     <div>
       <header className="tasks-header">
-        <LogoutButton />
+        <LogoutButton onLogout={handleLogout} />
         <h2>Mis Tareas</h2>
       </header>
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import API from "../api/api";
 import { useNavigate } from "react-router-dom";
 
-export default function RegisterForm({ switchToLogin }) {
+export default function RegisterForm({ switchToLogin, setIsLoggedIn }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -12,9 +12,10 @@ export default function RegisterForm({ switchToLogin }) {
         try {
             const res = await API.post("/auth/register", { username, password });
             localStorage.setItem("token", res.data.token);
+            setIsLoggedIn(true);
             navigate("/tasks");
         } catch (err) {
-            alert(err.response?.data?.msg || "Error al registrar");
+            alert(err.response?.data?.msg || "Error al registrarse");
         }
     };
 
@@ -22,25 +23,11 @@ export default function RegisterForm({ switchToLogin }) {
         <div>
             <h2>Registrarse</h2>
             <form onSubmit={handleSubmit}>
-                <input
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Usuario"
-                    required
-                />
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Contraseña"
-                    required
-                />
+                <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Usuario" required />
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Contraseña" required />
                 <button type="submit">Registrarse</button>
             </form>
-            <p>
-                ¿Ya tienes cuenta?{" "}
-                <button onClick={switchToLogin}>Inicia sesión aquí</button>
-            </p>
+            <p>¿Ya tienes cuenta? <button onClick={switchToLogin}>Inicia sesión aquí</button></p>
         </div>
     );
 }
